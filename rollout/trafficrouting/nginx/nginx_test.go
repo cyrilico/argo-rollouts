@@ -553,8 +553,9 @@ func TestCanaryIngressAdditionalAnnotations(t *testing.T) {
 					},
 				}
 				r.cfg.Rollout.Spec.Strategy.Canary.TrafficRouting.Nginx.AdditionalIngressAnnotations = map[string]string{
-					"canary-by-header":       "X-Foo",
-					"canary-by-header-value": "DoCanary",
+					"canary-by-header":                      "X-Foo",
+					"canary-by-header-value":                "DoCanary",
+					"annotation-prefix.some.group/some-key": "some-value",
 				}
 				stable := extensionsIngress(ing, 80, stableService)
 				stableIngress := ingressutil.NewLegacyIngress(stable)
@@ -569,6 +570,7 @@ func TestCanaryIngressAdditionalAnnotations(t *testing.T) {
 				assert.Equal(t, "15", annotations["nginx.ingress.kubernetes.io/canary-weight"], "canary-weight annotation set to expected value")
 				assert.Equal(t, "X-Foo", annotations["nginx.ingress.kubernetes.io/canary-by-header"], "canary-by-header annotation set")
 				assert.Equal(t, "DoCanary", annotations["nginx.ingress.kubernetes.io/canary-by-header-value"], "canary-by-header-value annotation set")
+				assert.Equal(t, "some-value", annotations["annotation-prefix.some.group/some-key"], "custom full annotation set without default prefix")
 			}
 		})
 	}
