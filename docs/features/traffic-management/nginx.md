@@ -34,7 +34,7 @@ spec:
           additionalIngressAnnotations:   # optional
             canary-by-header: X-Canary
             canary-by-header-value: iwantsit
-            my-custom-annotation/key: value
+            my-custom-annotation.mygroup.com/key: value
 ```
 
 The stable Ingress field is a reference to an Ingress in the same namespace of the Rollout. The Rollout requires the primary Ingress routes traffic to the stable Service. The Rollout checks that condition by confirming the Ingress has a backend that matches the Rollout's stableService.
